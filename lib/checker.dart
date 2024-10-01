@@ -84,7 +84,7 @@ String generateTransactionId() {
   return List.generate(32, (index) => Random.secure().nextInt(16).toRadixString(16).toUpperCase()).join('');
 }
 
-Future<NATTestResult> natTest(
+Future<NATTestResult> performNATTest(
   RawDatagramSocket socket,
   String stunHost,
   int stunPort,
@@ -106,13 +106,13 @@ Future<NATTestResult> natTest(
     return await completer.future.timeout(const Duration(seconds: 3));
   } catch (e) {
     if (count > 0) {
-      return natTest(socket, stunHost, stunPort, sourceIp, sourcePort, extraData: extraData, count: count - 1);
+      return performNATTest(socket, stunHost, stunPort, sourceIp, sourcePort, extraData: extraData, count: count - 1);
     }
     return NATTestResult.UNKNOWN;
   }
 }
 
-Future<NATTestResult> getNatType({
+Future<NATTestResult> determineNatType({
   required RawDatagramSocket socket,
   required String stunHost,
   required int stunPort,
@@ -121,7 +121,7 @@ Future<NATTestResult> getNatType({
 }) async {
   //1.首先客户端要发送一个ECHO请求给服务端（提供STUN服务），服务端收到请求之后，通过同样的IP地址和端口，给我们返回一个信息回来。
   print("Do Test1");
-  NATTestResult result = await natTest(socket, stunHost, stunPort, sourceIp, sourcePort);
+  NATTestResult result = await performNATTest(socket, stunHost, stunPort, sourceIp, sourcePort);
   print("Result: ${result}");
   //2.那在客户端就要等这个消息回复，那么设置一个超时器，看每个消息是否可以按时回来，那如果我们发送的数据没有回来，则说明这个UDP是不通的，我们就不要再进行判断了（网络不通，不需要判断）。
   if (!result.resp) {
@@ -131,7 +131,7 @@ Future<NATTestResult> getNatType({
 
   print("Do Test2");
   String extraData = "$CHANGE_REQUEST$SOURCE_ADDRESS$IP_ADDRESS_AND_PORT_LENGTH_6_BYTES";
-  NATTestResult result2 = await natTest(socket, stunHost, stunPort, sourceIp, sourcePort, extraData: extraData);
+  NATTestResult result2 = await performNATTest(socket, stunHost, stunPort, sourceIp, sourcePort, extraData: extraData);
   print("Result: ${result2}");
   //3.如果我们收到了服务端的响应，那么就能拿到我们这个客户端出口的公网的IP地址和端口，这个时候要判断一下公网的IP地址和本机的IP地址（NAT内部址！！！）是否是一致的，如果是一致的，说明本机没有在NAT之后而是一个公网地址；地
 
@@ -158,7 +158,7 @@ Future<NATTestResult> getNatType({
     return result;
   }
   print("Do Test3");
-  NATTestResult result3 = await natTest(socket, result.changedIp, result.changedPort, sourceIp, sourcePort);
+  NATTestResult result3 = await performNATTest(socket, result.changedIp, result.changedPort, sourceIp, sourcePort);
   print("Result: ${result3}");
   //8.那么如果收不到的话，需要做进一步的判断，这时候需要（客户端主动发送数据，用来探测对称型）向服务端的第二个IP地址和端口发送数据，
   // 那么此时服务端会用同样的IP地址和端口给我们回数据，那么这时候它也会带回一个公网的IP地址来，
@@ -172,7 +172,7 @@ Future<NATTestResult> getNatType({
   if (result.externalIp == result3.externalIp && result.externalPort == result3.externalPort) {
     print("Do Test4");
     String changePortRequest = "$CHANGE_REQUEST$SOURCE_ADDRESS$PORT_LENGTH_2_BYTES";
-    NATTestResult result4 = await natTest(socket, result.changedIp, result.changedPort, sourceIp, sourcePort, extraData: changePortRequest);
+    NATTestResult result4 = await performNATTest(socket, result.changedIp, result.changedPort, sourceIp, sourcePort, extraData: changePortRequest);
     print("Result: ${result4}");
     //9.如果一样（没有修改映射表，没有新建一个映射关系，即是说明客户端的外网IP和端口不变）就说明是限制型的，限制型分为两种一种是IP限制型，一种是端口限制型，所以还需要做进一步的检测。
     // 这个时候客户端主动再向服务端第一个IP地址和端口发送一个请求，如果服务端回信息时使用的是之前回复消息所使用的同一个IP地址，但是不是同一个的端口号，那么这时候我们就可以判断是否可以接收到，如果不能接收到，说明是对端口做了限制，
@@ -193,7 +193,7 @@ Future<NATTestResult> getNatType({
   return result;
 }
 
-void onData(RawSocketEvent event, RawDatagramSocket socket) {
+void handleData(RawSocketEvent event, RawDatagramSocket socket) {
   try {
     if (event == RawSocketEvent.read) {
       Datagram? datagram = socket.receive();
@@ -248,7 +248,7 @@ void onData(RawSocketEvent event, RawDatagramSocket socket) {
   }
 }
 
-Future<NATTestResult> getIpInfo({
+Future<NATTestResult> getNatType({
   String stunHost = "stun.syncthing.net",
   int stunPort = 3478,
   String sourceIp = "0.0.0.0",
@@ -256,8 +256,8 @@ Future<NATTestResult> getIpInfo({
 }) async {
   final socket = await RawDatagramSocket.bind(InternetAddress(sourceIp), sourcePort);
   socket.timeout(const Duration(seconds: 2));
-  socket.listen((event) => onData(event, socket));
-  final nat = await getNatType(
+  socket.listen((event) => handleData(event, socket));
+  final nat = await determineNatType(
     socket: socket,
     stunHost: stunHost,
     stunPort: stunPort,
@@ -266,4 +266,8 @@ Future<NATTestResult> getIpInfo({
   );
   socket.close();
   return nat;
+}
+
+main() async {
+  print(await getNatType());
 }
