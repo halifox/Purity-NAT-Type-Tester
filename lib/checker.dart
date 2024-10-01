@@ -72,7 +72,7 @@ class NATTestResult {
 
   NATTestResult(this.type, this.resp, this.externalIp, this.externalPort, this.sourceIp, this.sourcePort, this.changedIp, this.changedPort);
 
-  static final NATTestResult UNKNOWN = NATTestResult(NATType.unknown, false, "", 0, "", 0, "", 0);
+  static NATTestResult get UNKNOWN => NATTestResult(NATType.unknown, false, "", 0, "", 0, "", 0);
 
   @override
   String toString() {
@@ -122,7 +122,7 @@ Future<NATTestResult> determineNatType({
   //1.首先客户端要发送一个ECHO请求给服务端（提供STUN服务），服务端收到请求之后，通过同样的IP地址和端口，给我们返回一个信息回来。
   print("Do Test1");
   NATTestResult result = await performNATTest(socket, stunHost, stunPort, sourceIp, sourcePort);
-  print("Result: ${result}");
+  print("Result1: ${result}");
   //2.那在客户端就要等这个消息回复，那么设置一个超时器，看每个消息是否可以按时回来，那如果我们发送的数据没有回来，则说明这个UDP是不通的，我们就不要再进行判断了（网络不通，不需要判断）。
   if (!result.resp) {
     result.type = NATType.blocked;
@@ -132,7 +132,7 @@ Future<NATTestResult> determineNatType({
   print("Do Test2");
   String extraData = "$CHANGE_REQUEST$SOURCE_ADDRESS$IP_ADDRESS_AND_PORT_LENGTH_6_BYTES";
   NATTestResult result2 = await performNATTest(socket, stunHost, stunPort, sourceIp, sourcePort, extraData: extraData);
-  print("Result: ${result2}");
+  print("Result2: ${result2}");
   //3.如果我们收到了服务端的响应，那么就能拿到我们这个客户端出口的公网的IP地址和端口，这个时候要判断一下公网的IP地址和本机的IP地址（NAT内部址！！！）是否是一致的，如果是一致的，说明本机没有在NAT之后而是一个公网地址；地
 
   //4.接下来要做进一步判断，就是判断我们的公网地址是不是一个完全的公网地址，这时我们再发送一个信息到第一个IP地址和端口，那服务端收到这个请求之后呢，
@@ -159,7 +159,7 @@ Future<NATTestResult> determineNatType({
   }
   print("Do Test3");
   NATTestResult result3 = await performNATTest(socket, result.changedIp, result.changedPort, sourceIp, sourcePort);
-  print("Result: ${result3}");
+  print("Result3: ${result3}");
   //8.那么如果收不到的话，需要做进一步的判断，这时候需要（客户端主动发送数据，用来探测对称型）向服务端的第二个IP地址和端口发送数据，
   // 那么此时服务端会用同样的IP地址和端口给我们回数据，那么这时候它也会带回一个公网的IP地址来，
   // 但是如果我们的出口，就是向第二个IP地址发送了请求带回的外网IP与端口与我们第一发送的请求带回的IP地址和端口（主要是端口）如果是不一样的，
@@ -173,7 +173,7 @@ Future<NATTestResult> determineNatType({
     print("Do Test4");
     String changePortRequest = "$CHANGE_REQUEST$SOURCE_ADDRESS$PORT_LENGTH_2_BYTES";
     NATTestResult result4 = await performNATTest(socket, result.changedIp, result.changedPort, sourceIp, sourcePort, extraData: changePortRequest);
-    print("Result: ${result4}");
+    print("Result4: ${result4}");
     //9.如果一样（没有修改映射表，没有新建一个映射关系，即是说明客户端的外网IP和端口不变）就说明是限制型的，限制型分为两种一种是IP限制型，一种是端口限制型，所以还需要做进一步的检测。
     // 这个时候客户端主动再向服务端第一个IP地址和端口发送一个请求，如果服务端回信息时使用的是之前回复消息所使用的同一个IP地址，但是不是同一个的端口号，那么这时候我们就可以判断是否可以接收到，如果不能接收到，说明是对端口做了限制，
     // 所以是端口限制型的NAT，如果可以收到就说明是一个IP地址限制型的NAT。
