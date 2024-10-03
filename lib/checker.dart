@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:core' as core;
+import 'dart:core';
 import 'dart:io';
 import 'dart:math';
 
@@ -76,7 +78,7 @@ class NATTestResult {
 
   @override
   String toString() {
-    return 'NATTestResult{type: $type, resp: $resp, externalIp: $externalIp, externalPort: $externalPort, sourceIp: $sourceIp, sourcePort: $sourcePort, changedIp: $changedIp, changedPort: $changedPort}';
+    return 'resp: $resp, externalIp: $externalIp, externalPort: $externalPort, sourceIp: $sourceIp, sourcePort: $sourcePort, changedIp: $changedIp, changedPort: $changedPort';
   }
 }
 
@@ -267,6 +269,8 @@ Future<NATTestResult> getNatType({
   socket.close();
   return nat;
 }
+
+void Function(Object? object) print = core.print;
 
 main() async {
   print(await getNatType());

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:purity_nat_type_tester/checker.dart' as checker;
 import 'package:purity_nat_type_tester/checker.dart';
 
 void main() {
@@ -30,6 +31,8 @@ class _HomePageState extends State<HomePage> {
   late TextEditingController sourceIpController = TextEditingController(text: "0.0.0.0");
   late TextEditingController sourcePortController = TextEditingController(text: "54320");
 
+  List<String> logs = ["[log]:======== start ========"];
+
   NATTestResult? mNATTestResult;
 
   bool isTestRunning = false;
@@ -40,6 +43,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         isTestRunning = true;
         mNATTestResult = null;
+        logs = ["[log]:======== start ========"];
       });
       mNATTestResult = await getNatType(
         stunHost: stunHostController.text,
@@ -47,13 +51,15 @@ class _HomePageState extends State<HomePage> {
         sourceIp: sourceIpController.text,
         sourcePort: int.parse(sourcePortController.text),
       );
-      setState(() {});
     } catch (e) {
-      print(e);
+      checker.print("======== catch ========");
+      checker.print(e);
     } finally {
       setState(() {
         isTestRunning = false;
       });
+
+      checker.print("======== finish ========");
     }
   }
 
@@ -87,6 +93,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    checker.print = (e) {
+      setState(() {
+        logs.add("[log]:$e");
+      });
+    };
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -99,6 +116,21 @@ class _HomePageState extends State<HomePage> {
                 width: double.infinity,
                 decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondaryContainer, borderRadius: BorderRadius.circular(24)),
                 child: Text(getInfo(mNATTestResult), style: Theme.of(context).textTheme.bodyLarge),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                width: double.infinity,
+                height: 200,
+                decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondaryContainer, borderRadius: BorderRadius.circular(24)),
+                child: ListView.builder(
+                  itemCount: logs.length,
+                  itemBuilder: (context, index) {
+                    return Text(logs[index], key: ValueKey(logs[index]));
+                  },
+                ),
               ),
             ),
             Padding(
