@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
       case NATType.restrictNAT:
         return "NAT2: Address-Restricted Cone NAT，受限锥型NAT";
       case NATType.restrictPortNAT:
-        return "NAT3: Port-Restricted Cone NAT，端口受限锥型";
+        return "NAT3: Port-Restricted Cone NAT，端口受限锥型NAT";
       case NATType.symmetricNAT:
         return "NAT4: Symmetric NAT，对称型NAT";
       case NATType.changedAddressError:
