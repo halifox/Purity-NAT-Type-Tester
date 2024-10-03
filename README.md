@@ -16,6 +16,7 @@ This project is licensed under the GPL License.
 
 ## Resources
 
+- [家庭网络中的「NAT」到底是什么？](https://sspai.com/post/68037)
 - [P2P通信原理与实现](./doc/P2P通信原理与实现.md)
 - [P2P通信标准协议(一)之STUN](./doc/P2P通信标准协议(一)之STUN.md)
 - [NAT的四种类型以及类型探测](./doc/NAT的四种类型以及类型探测.md)
