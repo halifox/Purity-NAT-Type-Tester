@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Purity NAT type tester',
+      title: 'Purity NAT Type Tester',
       home: const HomePage(),
     );
   }

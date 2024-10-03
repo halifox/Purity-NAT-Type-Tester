@@ -1,6 +1,6 @@
 {
-    "name": "purity_nat_type_tester",
-    "short_name": "purity_nat_type_tester",
+    "name": "Purity NAT Type Tester",
+    "short_name": "Purity NAT Type Tester",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

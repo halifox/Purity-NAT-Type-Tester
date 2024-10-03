@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="purity_nat_type_tester"
+        android:label="Purity NAT Type Tester"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
