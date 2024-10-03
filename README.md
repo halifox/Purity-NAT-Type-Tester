@@ -10,6 +10,15 @@ A cross-platform app built with Flutter to detect the NAT type of the current ne
 
 ![Screenshot_20241003_133801.png](doc%2FScreenshot_20241003_133801.png)
 
+## Web Platform Not Supported
+
+This app does not support web platforms due to browser limitations on using UDP over WebSockets.     
+For more information:
+
+- [Why can't I send UDP packets from a browser?](https://gafferongames.com/post/why_cant_i_send_udp_packets_from_a_browser/)
+- [JavaScript WebSockets with UDP?](https://stackoverflow.com/questions/4657033/javascript-websockets-with-udp)
+- [Reading from udp port in browser](https://www.codeease.net/programming/questions/reading-from-udp-port-in-browser)
+
 ## License
 
 This project is licensed under the GPL License.
