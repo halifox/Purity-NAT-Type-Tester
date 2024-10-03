@@ -1,16 +1,13 @@
-# purity_nat_type_tester
+# Purity NAT Type Tester
 
-A new Flutter project.
+A cross-platform app built with Flutter to detect the NAT type of the current network.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Cross-platform (iOS, Android, Windows, macOS, Linux)
+- Detects current network NAT type (Full Cone, Restricted Cone, Port Restricted Cone, Symmetric)
+- Easy-to-use interface
 
-A few resources to get you started if this is your first Flutter project:
+## License
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project is licensed under the GPL License.
