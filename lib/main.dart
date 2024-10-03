@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:purity_nat_type_tester/checker.dart' as checker;
@@ -12,9 +16,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Purity NAT Type Tester',
-      home: const HomePage(),
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) => MaterialApp(
+        title: 'Purity NAT Type Tester',
+        debugShowCheckedModeBanner: false,
+        themeMode: ThemeMode.system,
+        theme: ThemeData(
+          brightness: Brightness.light,
+          colorScheme: lightDynamic,
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          colorScheme: darkDynamic,
+        ),
+        home: const HomePage(),
+      ),
     );
   }
 }
@@ -106,6 +122,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (!kIsWeb && Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Theme.of(context).colorScheme.surface,
+        systemNavigationBarDividerColor: Theme.of(context).colorScheme.surface,
+        systemNavigationBarIconBrightness: Theme.of(context).colorScheme.brightness,
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Theme.of(context).colorScheme.brightness,
+        statusBarIconBrightness: (Theme.of(context).colorScheme.brightness == Brightness.dark) ? Brightness.light : Brightness.dark, //MIUI的这个行为有异常
+      ));
+    }
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
