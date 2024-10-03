@@ -13,3 +13,11 @@ A cross-platform app built with Flutter to detect the NAT type of the current ne
 ## License
 
 This project is licensed under the GPL License.
+
+## Resources
+
+- [P2P通信原理与实现](./doc/P2P通信原理与实现.md)
+- [P2P通信标准协议(一)之STUN](./doc/P2P通信标准协议(一)之STUN.md)
+- [NAT的四种类型以及类型探测](./doc/NAT的四种类型以及类型探测.md)
+- [talkiq/pystun3](https://github.com/talkiq/pystun3)
+- [HMBSbige/NatTypeTester](https://github.com/HMBSbige/NatTypeTester)
