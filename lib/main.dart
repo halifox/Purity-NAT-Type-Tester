@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:purity_nat_type_tester/checker.dart' as checker;
 import 'package:purity_nat_type_tester/checker.dart';
 
@@ -148,6 +149,9 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   controller: stunPortController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -169,6 +173,9 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   controller: sourcePortController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
