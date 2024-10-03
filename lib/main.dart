@@ -107,79 +107,81 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                width: double.infinity,
-                decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondaryContainer, borderRadius: BorderRadius.circular(24)),
-                child: Text(getInfo(mNATTestResult), style: Theme.of(context).textTheme.bodyLarge),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                width: double.infinity,
-                height: 200,
-                decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondaryContainer, borderRadius: BorderRadius.circular(24)),
-                child: ListView.builder(
-                  itemCount: logs.length,
-                  itemBuilder: (context, index) {
-                    return Text(logs[index], key: ValueKey(logs[index]));
-                  },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  width: double.infinity,
+                  decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondaryContainer, borderRadius: BorderRadius.circular(24)),
+                  child: Text(getInfo(mNATTestResult), style: Theme.of(context).textTheme.bodyLarge),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: stunHostController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'stun host',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondaryContainer, borderRadius: BorderRadius.circular(24)),
+                  child: ListView.builder(
+                    itemCount: logs.length,
+                    itemBuilder: (context, index) {
+                      return Text(logs[index], key: ValueKey(logs[index]));
+                    },
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                controller: stunPortController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'stun port',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: stunHostController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'stun host',
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: sourceIpController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'source ip',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: stunPortController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'stun port',
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                controller: sourcePortController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'source port',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: sourceIpController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'source ip',
+                  ),
                 ),
               ),
-            ),
-            FilledButton(
-              onPressed: isTestRunning ? null : test,
-              child: Text("测试"),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: sourcePortController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'source port',
+                  ),
+                ),
+              ),
+              FilledButton(
+                onPressed: isTestRunning ? null : test,
+                child: Text("测试"),
+              )
+            ],
+          ),
         ),
       ),
     );
