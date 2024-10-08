@@ -85,23 +85,23 @@ class _HomePageState extends State<HomePage> {
       case null:
         return "";
       case NATType.unknown:
-        return "未知";
+        return "Unknown: 未知";
       case NATType.blocked:
-        return "无法通过NAT";
+        return "Blocked: 无法通过NAT";
       case NATType.openInternet:
-        return "无NAT";
+        return "OpenInternet: 无NAT";
       case NATType.fullCone:
-        return "NAT1: Full Cone NAT，全锥形NAT";
+        return "NAT1: Full Cone NAT: 全锥形NAT";
       case NATType.symmetricUDPFirewall:
-        return "NAT4: Symmetric NAT，对称型NAT; 并且具有UDP防火墙";
+        return "NAT4: Symmetric NAT: 对称型NAT; 并且具有UDP防火墙";
       case NATType.restrictNAT:
-        return "NAT2: Address-Restricted Cone NAT，受限锥型NAT";
+        return "NAT2: Address-Restricted Cone NAT: 受限锥型NAT";
       case NATType.restrictPortNAT:
-        return "NAT3: Port-Restricted Cone NAT，端口受限锥型NAT";
+        return "NAT3: Port-Restricted Cone NAT: 端口受限锥型NAT";
       case NATType.symmetricNAT:
-        return "NAT4: Symmetric NAT，对称型NAT";
+        return "NAT4: Symmetric NAT: 对称型NAT";
       case NATType.changedAddressError:
-        return "测试 Changed IP 和端口时遇到的错误。";
+        return "ChangedAddressError: 测试 Changed IP 和端口时遇到的错误。";
     }
   }
 
@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                   controller: stunHostController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'stun host',
+                    labelText: 'STUN server：提供 STUN 服务的服务器',
                   ),
                 ),
               ),
@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                   controller: stunPortController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'stun port',
+                    labelText: 'STUN port：STUN 服务所在的端口（通常是 3478 或 5349）',
                   ),
                 ),
               ),
@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                   controller: sourceIpController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'source ip',
+                    labelText: 'Source IP：发起 STUN 请求的客户端的 IP 地址。',
                   ),
                 ),
               ),
@@ -205,13 +205,13 @@ class _HomePageState extends State<HomePage> {
                   controller: sourcePortController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'source port',
+                    labelText: 'Source port：发起 STUN 请求的客户端的端口。',
                   ),
                 ),
               ),
               FilledButton(
                 onPressed: isTestRunning ? null : test,
-                child: Text("测试"),
+                child: Text("RUN"),
               )
             ],
           ),
