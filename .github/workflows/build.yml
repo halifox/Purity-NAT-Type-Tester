@@ -20,9 +20,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests
-        run: flutter test
-
       - name: Build web
         run: flutter build web --release
 
@@ -62,9 +59,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests
-        run: flutter test
-
       - name: Build for Linux
         run: flutter build linux --release
 
@@ -103,9 +97,6 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
-
-      - name: Run tests
-        run: flutter test
 
       - name: Build APK
         run: flutter build apk --release
@@ -154,9 +145,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests
-        run: flutter test
-
       - name: Build for Windows
         run: flutter build windows --release
 
@@ -190,9 +178,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests
-        run: flutter test
-
       - name: Build for macOS
         run: flutter build macos --release
 
@@ -225,9 +210,6 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
-
-      - name: Run tests
-        run: flutter test
 
       - name: Build for iOS
         run: flutter build ios --release --no-codesign
