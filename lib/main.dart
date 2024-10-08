@@ -135,20 +135,18 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Container(
                   padding: const EdgeInsets.all(16.0),
                   width: double.infinity,
                   decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondaryContainer, borderRadius: BorderRadius.circular(24)),
                   child: Text(getInfo(mNATTestResult), style: Theme.of(context).textTheme.bodyLarge),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
+                SizedBox(height: 8),
+                Container(
                   padding: const EdgeInsets.all(16.0),
                   width: double.infinity,
                   height: 200,
@@ -160,20 +158,16 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
+                SizedBox(height: 16),
+                TextField(
                   controller: stunHostController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'STUN server：提供 STUN 服务的服务器',
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
+                SizedBox(height: 16),
+                TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -184,20 +178,16 @@ class _HomePageState extends State<HomePage> {
                     labelText: 'STUN port：STUN 服务所在的端口（通常是 3478 或 5349）',
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
+                SizedBox(height: 16),
+                TextField(
                   controller: sourceIpController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Source IP：发起 STUN 请求的客户端的 IP 地址。',
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
+                SizedBox(height: 16),
+                TextField(
                   keyboardType: TextInputType.number,
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -208,12 +198,13 @@ class _HomePageState extends State<HomePage> {
                     labelText: 'Source port：发起 STUN 请求的客户端的端口。',
                   ),
                 ),
-              ),
-              FilledButton(
-                onPressed: isTestRunning ? null : test,
-                child: Text("RUN"),
-              )
-            ],
+                SizedBox(height: 16),
+                FilledButton(
+                  onPressed: isTestRunning ? null : test,
+                  child: Text("RUN"),
+                )
+              ],
+            ),
           ),
         ),
       ),

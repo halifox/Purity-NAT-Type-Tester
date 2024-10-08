@@ -108,7 +108,7 @@ Future<NATTestResult> performNATTest(
     return await completer.future.timeout(const Duration(seconds: 3));
   } catch (e) {
     if (count > 0) {
-      print("retry:${e}");
+      print("catch:${e}");
       return performNATTest(socket, stunHost, stunPort, sourceIp, sourcePort, extraData: extraData, count: count - 1);
     }
     return NATTestResult.UNKNOWN;
