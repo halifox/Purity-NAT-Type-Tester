@@ -188,7 +188,7 @@ jobs:
           path: build/macos/
 
       - name: Zip compiled files
-        run: zip -r macos-universal-release.zip build/macos/Build/Products/Release/app.app
+        run: zip -r macos-universal-release.zip build/macos/Build/Products/Release/purity_nat_type_tester.app
 
       - name: Publish release
         uses: softprops/action-gh-release@v2
