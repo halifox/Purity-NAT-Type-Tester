@@ -8,7 +8,7 @@ Purity NAT Type Tester is a cross-platform NAT type checking tool that supports 
 - **NAT Type Detection**: Identifies current network NAT types (Full Cone, Restricted Cone, Port Restricted Cone, Symmetric)
 - **User-Friendly Interface**: Easy-to-use interface design
 
-![](doc/Screenshot_20241003_133801.png)
+![](./doc/Screenshot_20241009_083139.png)
 
 ## Web Platform Not Supported
 
