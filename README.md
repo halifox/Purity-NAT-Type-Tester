@@ -1,5 +1,7 @@
 # Purity NAT Type Tester
 
+(最近在看rfc5780 发现我的侦测过程完全错了 重写中)
+
 Purity NAT Type Tester is a cross-platform NAT type checking tool that supports iOS, Android, Windows, macOS, and Linux.
 
 ## Features
