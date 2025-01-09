@@ -13,11 +13,11 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "1.0.5"
-      resolved-ref: dff656e9b84bc1fac36491a25b04f39468bec553
+      ref: "1.0.6"
+      resolved-ref: "1ce0348216a96e1b35580ec9ea21631d0892096d"
       url: "https://github.com/halifox/dart_bit_buffer"
     source: git
-    version: "1.0.5"
+    version: "1.0.6"
   boolean_selector:
     dependency: transitive
     description:
@@ -196,11 +196,9 @@ packages:
   stun:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "1.0.0"
-      resolved-ref: c6f70cafc3f8cb393a03474cbab401535462e977
-      url: "https://github.com/halifox/dart_stun"
-    source: git
+      path: "C:\\Users\\user\\AndroidStudioProjects\\dart_stun"
+      relative: false
+    source: path
     version: "1.0.0"
   term_glyph:
     dependency: transitive
