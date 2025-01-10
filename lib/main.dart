@@ -4,7 +4,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:purity_nat_type_tester/check_rfc_5780.dart' as rfc5780;
+import 'package:stun/src/nat_checker_rfc_5780.dart' as rfc5780;
 
 void main() {
   runApp(const MyApp());
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(onPressed: () async {
-        rfc5780.Checker checker = rfc5780.Checker();
+        rfc5780.NatChecker checker = rfc5780.NatChecker();
         var (a, b) = await checker.check();
         print(a);
         print(b);
