@@ -199,7 +199,7 @@ packages:
       path: "C:\\Users\\user\\AndroidStudioProjects\\dart_stun"
       relative: false
     source: path
-    version: "2.0.2"
+    version: "2.0.3"
   term_glyph:
     dependency: transitive
     description:
