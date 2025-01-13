@@ -196,9 +196,11 @@ packages:
   stun:
     dependency: "direct main"
     description:
-      path: "C:\\Users\\user\\AndroidStudioProjects\\dart_stun"
-      relative: false
-    source: path
+      path: "."
+      ref: "2.0.3"
+      resolved-ref: ba2cd866d3180ce6345906f4a2f31a5e143007f6
+      url: "https://github.com/halifox/dart_stun"
+    source: git
     version: "2.0.3"
   term_glyph:
     dependency: transitive
