@@ -37,10 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.8
   dynamic_color: ^1.7.0
   stun:
-    path: C:\Users\user\AndroidStudioProjects\dart_stun
-#    git:
-#      url: https://github.com/halifox/dart_stun
-#      ref: 1.0.0
+#    path: C:\Users\user\AndroidStudioProjects\dart_stun
+    git:
+      url: https://github.com/halifox/dart_stun
+      ref: 2.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
