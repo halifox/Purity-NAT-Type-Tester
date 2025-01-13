@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Theme.of(context).colorScheme.primaryContainer,
+          color: state == EventState.idle ? Theme.of(context).colorScheme.secondaryContainer : Theme.of(context).colorScheme.primaryContainer,
         ),
         child: Row(
           children: [
@@ -159,22 +159,22 @@ class _HomePageState extends State<HomePage> {
       ));
     }
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                StateItem(event.result, message),
                 StateItem(event.initializeLocalAddresses, "本机网络接口检测"),
                 StateItem(event.performPhase1MappingTest, "本地公网地址检测"),
                 StateItem(event.performPhase2MappingTest, "独立端点映射检测"),
                 StateItem(event.performPhase3MappingTest, "地址依赖映射检测"),
                 StateItem(event.performPhase1FilteringTest, "独立端点过滤检测"),
                 StateItem(event.performPhase2FilteringTest, "地址依赖过滤检测"),
-                StateItem(event.result, message),
                 SizedBox(height: 8),
                 buildStunEditText(),
                 buildStunChipGroup(),
@@ -278,7 +278,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildStunChip(String server) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 8, 16, 0),
+      padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
       child: ActionChip(
         label: Text(server),
         onPressed: () {
