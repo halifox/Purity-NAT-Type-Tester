@@ -153,10 +153,14 @@ class NatChecker {
       return _performPhase2MappingTest(message);
     } on TimeoutException catch (e) {
       checkerEvent.performPhase1MappingTest = EventState.timeout;
+      checkerEvent.performPhase2MappingTest = EventState.never;
+      checkerEvent.performPhase3MappingTest = EventState.never;
       updateCheckerEvent();
       return NatMappingBehavior.Block;
     } catch (e, stackTrace) {
       checkerEvent.performPhase1MappingTest = EventState.error;
+      checkerEvent.performPhase2MappingTest = EventState.never;
+      checkerEvent.performPhase3MappingTest = EventState.never;
       updateCheckerEvent();
       rethrow;
     }
@@ -188,10 +192,12 @@ class NatChecker {
       return _performPhase3MappingTest(message1, message);
     } on TimeoutException catch (e) {
       checkerEvent.performPhase2MappingTest = EventState.timeout;
+      checkerEvent.performPhase3MappingTest = EventState.never;
       updateCheckerEvent();
       return NatMappingBehavior.Block;
     } catch (e, stackTrace) {
       checkerEvent.performPhase2MappingTest = EventState.error;
+      checkerEvent.performPhase3MappingTest = EventState.never;
       updateCheckerEvent();
       rethrow;
     }
@@ -242,6 +248,7 @@ class NatChecker {
       // 如果不能收到STUN server的响应，那么需要进行下面的第五步测试。
       StunMessage message = await _stunClient.sendAndAwait(_stunClient.createChangeStunMessage(flagChangeIp: true, flagChangePort: true), isAutoClose: true);
       checkerEvent.performPhase1FilteringTest = EventState.success;
+      checkerEvent.performPhase2FilteringTest = EventState.never;
       updateCheckerEvent();
       return NatFilteringBehavior.EndpointIndependent;
     } on TimeoutException catch (e) {
@@ -250,6 +257,7 @@ class NatChecker {
       return _performPhase2FilteringTest();
     } catch (e, stackTrace) {
       checkerEvent.performPhase1FilteringTest = EventState.error;
+      checkerEvent.performPhase2FilteringTest = EventState.never;
       updateCheckerEvent();
       rethrow;
     }
