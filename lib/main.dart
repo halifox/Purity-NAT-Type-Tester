@@ -42,6 +42,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final String pattern = r'^([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+):([1-9][0-9]{0,4})$';
+  TextEditingController stunController = TextEditingController(text: "stun.hot-chilli.net:3478");
+
+  rfc5780.NatMappingBehavior? natMappingBehavior;
+  rfc5780.NatFilteringBehavior? natFilteringBehavior;
+
   @override
   Widget build(BuildContext context) {
     if (!kIsWeb && Platform.isAndroid) {
@@ -60,17 +66,109 @@ class _HomePageState extends State<HomePage> {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              children: [],
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("${natMappingBehavior}"),
+                Text("${natFilteringBehavior}"),
+                buildStunEditText(),
+                buildStunChipGroup(),
+              ],
             ),
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        rfc5780.NatChecker checker = rfc5780.NatChecker();
-        var (a, b) = await checker.check();
-        print(a);
-        print(b);
-      }),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.play_arrow),
+        onPressed: () async {
+          try {
+            String input = stunController.text;
+
+            RegExpMatch? match = RegExp(pattern).firstMatch(input);
+            if (match == null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("STUN 输入错误")));
+              return;
+            }
+
+            String host = match.group(1)!;
+            int port = int.parse(match.group(3) ?? "3478");
+            rfc5780.NatChecker checker = rfc5780.NatChecker(
+              serverHost: host,
+              serverPort: port,
+            );
+            var (natMappingBehavior, natFilteringBehavior) = await checker.check();
+            setState(() {
+              this.natMappingBehavior = natMappingBehavior;
+              this.natFilteringBehavior = natFilteringBehavior;
+            });
+          } catch (e) {
+            showErrorDialog(context, "${e}");
+          }
+        },
+      ),
+    );
+  }
+
+  void showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("error"),
+          content: Text(message),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("back"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildStunEditText() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        controller: stunController,
+        decoration: InputDecoration(
+          labelText: "STUN",
+          border: const OutlineInputBorder(
+            borderSide: BorderSide(),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            gapPadding: 8.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildStunChipGroup() {
+    return Wrap(
+      children: [
+        buildStunChip("stun.hot-chilli.net:3478"),
+        buildStunChip("stun.l.google.com:19302"),
+        buildStunChip("stun.stunprotocol.org:3478"),
+        buildStunChip("stun.ekiga.net:3478"),
+        buildStunChip("stun.sipgate.net:3478"),
+        buildStunChip("stun.xten.com:3478"),
+        buildStunChip("stun.voipbuster.com:3478"),
+      ],
+    );
+  }
+
+  Widget buildStunChip(String server) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 8, 16, 0),
+      child: ActionChip(
+        label: Text(server),
+        onPressed: () {
+          stunController.text = server;
+        },
+      ),
     );
   }
 }
